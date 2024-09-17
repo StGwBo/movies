@@ -12,13 +12,7 @@ function SectionCastList({ cast }: CastList) {
                 В главных ролях
             </Typography>
             {cast.slice(0, 6).map((actor) => (
-                <Typography
-                    key={actor.id}
-                    variant="h6"
-                    sx={{
-                        cursor: "pointer",
-                    }}
-                >
+                <Typography key={actor.id} variant="h6">
                     {`${actor.name} в роли ${actor.character}`}{" "}
                 </Typography>
             ))}
