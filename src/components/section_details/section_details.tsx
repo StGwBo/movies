@@ -20,7 +20,7 @@ function SectionDetails({ crew, detailsMovie }: Details) {
             {formattedBuget && <Typography>Бюджет: {formattedBuget}</Typography>}
             {origin_country && <Typography>Страна производства: {origin_country}</Typography>}
             {formattedAverage && <Typography>Рейтинг: {formattedAverage}</Typography>}
-            {tagline && <Typography>Слоган: «{tagline}»</Typography>}
+            {tagline && <Typography>Слоган: {tagline}</Typography>}
             {mainProducer && <Typography>Продюсер: {mainProducer}</Typography>}
         </Box>
     );

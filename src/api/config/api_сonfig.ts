@@ -12,7 +12,7 @@ const API = {
         SEARCH: "/search/movie?query=",
         DISCOVER: "/discover/movie",
         INFO: "?language=ru-RU",
-        CREDITS: "/credits?language=ru-RU",
+        CREDITS: "/credits?language=en-EN",
         LANGUAGE: "language=ru-RU",
         PAGE: "&page=",
         GET_FAVORITE: () => `/account/${accountId}/favorite/movies`,
