@@ -1,4 +1,4 @@
-import { createEvent, createStore } from "effector";
+import { createEvent, createStore,  } from "effector";
 
 const initialState = {
     isModalOpen: false,
@@ -6,6 +6,7 @@ const initialState = {
 };
 const toggleModal = createEvent<boolean>();
 const setActiveModal = createEvent<string>();
+
 
 const $modal = createStore(initialState)
     .on(toggleModal, (state, isModalOpen) => ({ ...state, isModalOpen }))

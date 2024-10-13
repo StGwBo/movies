@@ -4,11 +4,11 @@ import { createMovieListUrl } from "../../utils/create_movie_list_url";
 import { Box, CircularProgress } from "@mui/material";
 import { useUnit } from "effector-react";
 import { $filter } from "../../redux/features/filter/filter_slice";
-import { $idFavorite, $movies, fetchMovies } from "../../redux/features/movies/movies_slice";
+import { $idFavorite, $isLoading, $movies, fetchMovies } from "../../redux/features/movies/movies_slice";
 
 function MovieContainer() {
     const { currentPage, sortYear, sortGenres, sortCriteria } = useUnit($filter);
-    const [{ movieList, isLoading }, idFavorite] = useUnit([$movies, $idFavorite]);
+    const [{ movieList }, idFavorite, isLoading] = useUnit([$movies, $idFavorite, $isLoading]);
 
     useEffect(() => {
         const fetchData = async () => {
