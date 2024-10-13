@@ -1,16 +1,15 @@
-import { setCurrentPage } from "../../redux/features/filter/filter_slice";
-import { selectFilter } from "../../redux/features/filter/selectors";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks/hooks";
+import { $filter, setCurrentPage } from "../../redux/features/filter/filter_slice";
 import { Pagination, Stack } from "@mui/material";
+import { useUnit } from "effector-react";
 
 function BasicPagination() {
-    const dispatch = useAppDispatch();
+    const onSetCurrentPage = useUnit(setCurrentPage);
 
-    const { currentPage, totalPages } = useAppSelector(selectFilter);
+    const { currentPage, totalPages } = useUnit($filter);
 
     const handleSortChange = (_: unknown, value: number) => {
         if (value) {
-            dispatch(setCurrentPage(value));
+            onSetCurrentPage(value);
         }
     };
 

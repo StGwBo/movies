@@ -1,13 +1,13 @@
 import { Box, Divider, Paper, Typography } from "@mui/material";
-import { useSelector } from "react-redux";
-import { selectMovie } from "../../redux/features/movies/selectors";
 import { MovieCard } from "../movie_card/movie_card";
+import { useUnit } from "effector-react";
+import { $idFavorite, $movies } from "../../redux/features/movies/movies_slice";
 
 function UserFavorites() {
-    const { favoriteMovies, idFavorite } = useSelector(selectMovie);
+    const [favoriteMovies, idFavorite] = useUnit([$movies, $idFavorite]);
 
     const renderFilmCard = favoriteMovies.map((movie) => (
-        <MovieCard key={movie.id} movie={movie} idFavorite={idFavorite()} />
+        <MovieCard key={movie.id} movie={movie} idFavorite={idFavorite} />
     ));
 
     return (

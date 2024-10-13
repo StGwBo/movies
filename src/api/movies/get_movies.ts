@@ -5,7 +5,6 @@ export async function getMovies(url: string) {
     try {
         const response = await fetch(url, apiOptions);
         const json = await response.json();
-
         return json;
     } catch (error) {
         console.error(error);

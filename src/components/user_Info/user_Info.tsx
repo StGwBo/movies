@@ -1,12 +1,12 @@
 import { Box, Divider, Paper, Typography } from "@mui/material";
-import { useSelector } from "react-redux";
-import { selectAuth } from "../../redux/features/auth/selectors";
 import { getAccountId } from "../../utils/auth_utils";
+import { $auth } from "../../redux/features/auth/auth_slice";
+import { useUnit } from "effector-react";
 
 const accountId = getAccountId();
 
 function UserInfo() {
-    const { email } = useSelector(selectAuth);
+    const { email } = useUnit($auth);
 
     return (
         <Paper

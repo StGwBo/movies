@@ -1,17 +1,19 @@
 import { useNavigate } from "react-router-dom";
-import { AppDispatch } from "../redux/store/store";
 import { resetFilters } from "../redux/features/filter/filter_slice";
 import { setAuthStatus } from "../redux/features/auth/auth_slice";
+import { useUnit } from "effector-react";
 
 export const useLogout = () => {
     const navigate = useNavigate();
+    const onSetAuthStatus = useUnit(setAuthStatus);
+    const onResetFilters = useUnit(resetFilters);
 
-    return (dispatch: AppDispatch) => {
+    return () => {
         localStorage.removeItem("token");
         localStorage.removeItem("accountId");
 
-        dispatch(resetFilters());
-        dispatch(setAuthStatus(false));
+        onResetFilters();
+        onSetAuthStatus(false);
 
         navigate("/");
     };

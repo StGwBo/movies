@@ -1,17 +1,17 @@
 import React, { useContext, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks/hooks";
 import { IconButton, Typography, Toolbar, Box, AppBar } from "@mui/material";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import { toggleModal } from "../../redux/features/modal/modal_slice";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { ColorThemeContext } from "../../theme/toggle_theme";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
 import { Link, useNavigate } from "react-router-dom";
-import { selectAuth } from "../../redux/features/auth/selectors";
 import { ModalAutho } from "../modal_autho/modal_autho";
 import { useLogout } from "../../utils/logout";
+import { useUnit } from "effector-react";
+import { $auth } from "../../redux/features/auth/auth_slice";
+import { toggleModal } from "../../redux/features/modal/modal_slice";
 
 function Header() {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -19,9 +19,8 @@ function Header() {
 
     const { theme, toggleColorMode } = useContext(ColorThemeContext);
 
-    const dispatch = useAppDispatch();
-
-    const { authStatus } = useAppSelector(selectAuth);
+    const { authStatus } = useUnit($auth);
+    const onToggleModal = useUnit(toggleModal);
 
     const navigate = useNavigate();
     const goBack = () => navigate("/");
@@ -35,13 +34,13 @@ function Header() {
     };
 
     const handleOpenAuthModal = () => {
-        dispatch(toggleModal(true));
+        onToggleModal(true);
     };
 
     const logout = useLogout();
     const handleLogout = () => {
         setAnchorEl(null);
-        logout(dispatch);
+        logout();
     };
 
     return (

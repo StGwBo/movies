@@ -1,17 +1,14 @@
 import { useEffect } from "react";
 import { MovieCard } from "../movie_card/movie_card";
 import { createMovieListUrl } from "../../utils/create_movie_list_url";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks/hooks";
 import { Box, CircularProgress } from "@mui/material";
-import { selectFilter } from "../../redux/features/filter/selectors";
-import { selectMovie } from "../../redux/features/movies/selectors";
-import { fetchMovies } from "../../redux/features/movies/movies_slice";
+import { useUnit } from "effector-react";
+import { $filter } from "../../redux/features/filter/filter_slice";
+import { $idFavorite, $movies, fetchMovies } from "../../redux/features/movies/movies_slice";
 
 function MovieContainer() {
-    const { currentPage, sortYear, sortGenres, sortCriteria } = useAppSelector(selectFilter);
-    const { movieList, idFavorite, isLoading } = useAppSelector(selectMovie);
-
-    const dispatch = useAppDispatch();
+    const { currentPage, sortYear, sortGenres, sortCriteria } = useUnit($filter);
+    const [{ movieList, isLoading }, idFavorite] = useUnit([$movies, $idFavorite]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -21,12 +18,12 @@ function MovieContainer() {
                 criteria: sortCriteria,
                 genres: sortGenres,
             });
-            await dispatch(fetchMovies(movieListUrl));
+            await fetchMovies(movieListUrl);
         };
         fetchData();
-    }, [currentPage, sortYear, sortGenres, sortCriteria, dispatch]);
+    }, [currentPage, sortYear, sortGenres, sortCriteria]);
 
-    const movieCards = movieList.map((movie) => <MovieCard key={movie.id} movie={movie} idFavorite={idFavorite()} />);
+    const movieCards = movieList.map((movie) => <MovieCard key={movie.id} movie={movie} idFavorite={idFavorite} />);
 
     const loadingContent = isLoading ? <CircularProgress /> : movieCards;
 

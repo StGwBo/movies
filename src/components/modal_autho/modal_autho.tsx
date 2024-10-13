@@ -1,17 +1,14 @@
-import { useAppDispatch, useAppSelector } from "../../redux/hooks/hooks";
 import { Dialog } from "@mui/material";
-import { selectModal } from "../../redux/features/modal/selectors";
-import { toggleModal } from "../../redux/features/modal/modal_slice";
+import { $modal, toggleModal } from "../../redux/features/modal/modal_slice";
 import { ModalEmailEntry } from "../modal_email_entry/modal_email_entry";
 import { ModalTokenRequest } from "../modal_token_request/modal_token_request";
+import { useUnit } from "effector-react";
 
 function ModalAutho() {
-    const dispatch = useAppDispatch();
-
-    const { isModalOpen, activeModal } = useAppSelector(selectModal);
+    const [onToggleModal, { isModalOpen, activeModal }] = useUnit([toggleModal, $modal]);
 
     const handleCloseModal = () => {
-        dispatch(toggleModal(false));
+        onToggleModal(false);
     };
 
     const content = () => {

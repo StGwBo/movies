@@ -1,13 +1,13 @@
-import { useAppDispatch } from "../../redux/hooks/hooks";
 import { resetFilters } from "../../redux/features/filter/filter_slice";
 import { Box, IconButton, Typography } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+import { useUnit } from "effector-react";
 
 function FilterTitle() {
-    const dispatch = useAppDispatch();
+    const onResetFilters = useUnit(resetFilters);
 
     const handleResetFilters = async () => {
-        dispatch(resetFilters());
+        onResetFilters();
     };
 
     return (

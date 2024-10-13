@@ -1,22 +1,23 @@
-import { setEmail } from "../../redux/features/auth/auth_slice";
+import { useUnit } from "effector-react";
 import { setActiveModal, toggleModal } from "../../redux/features/modal/modal_slice";
-import { useAppDispatch } from "../../redux/hooks/hooks";
 import { Box, Button, TextField, Typography } from "@mui/material";
+import { setEmail } from "../../redux/features/auth/auth_slice";
 
 function ModalEmailEntry() {
-    const dispatch = useAppDispatch();
+    const onSetEmail = useUnit(setEmail);
+    const [onToggleModal, onSetActiveModal] = useUnit([toggleModal, setActiveModal]);
 
     const submitForm = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
         const formJson = Object.fromEntries(formData.entries());
         const email = formJson.email as string;
-        dispatch(setEmail(email));
-        dispatch(setActiveModal("token"));
+        onSetEmail(email);
+        onSetActiveModal("token");
     };
 
     const toggleRequestModal = () => {
-        dispatch(toggleModal(false));
+        onToggleModal(false);
     };
 
     return (

@@ -1,12 +1,13 @@
 import { getAccoutId } from "../../api/index";
-import { setAuthStatus } from "../../redux/features/auth/auth_slice";
 import { setActiveModal, toggleModal } from "../../redux/features/modal/modal_slice";
-import { useAppDispatch } from "../../redux/hooks/hooks";
 import { Box, Button, TextField, Typography } from "@mui/material";
 import { checkTokenValidity } from "../../utils/auth_utils";
+import { useUnit } from "effector-react";
+import { setAuthStatus } from "../../redux/features/auth/auth_slice";
 
 function ModalTokenRequest() {
-    const dispatch = useAppDispatch();
+    const onSetAuthStatus = useUnit(setAuthStatus);
+    const [onToggleModal, onSetActiveModal] = useUnit([toggleModal, setActiveModal]);
 
     const submitForm = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -17,19 +18,19 @@ function ModalTokenRequest() {
         const isValidaty = await checkTokenValidity(token);
 
         if (isValidaty) {
-            dispatch(toggleModal(false));
-            dispatch(setAuthStatus(true));
+            onToggleModal(false);
+            onSetAuthStatus(true);
 
             localStorage.setItem("token", token);
             const accountId = await getAccoutId(token);
             localStorage.setItem("accountId", accountId);
 
-            dispatch(setActiveModal("email"));
+            onSetActiveModal("email");
         }
     };
 
     const toggleModalEntry = () => {
-        dispatch(setActiveModal("email"));
+        onSetActiveModal("email");
     };
 
     return (

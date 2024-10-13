@@ -1,22 +1,14 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createEvent, createStore } from "effector";
 
 const initialState = {
     isModalOpen: false,
     activeModal: "email",
 };
+const toggleModal = createEvent<boolean>();
+const setActiveModal = createEvent<string>();
 
-const modalSlice = createSlice({
-    name: "auth",
-    initialState,
-    reducers: {
-        toggleModal(state, action) {
-            state.isModalOpen = action.payload;
-        },
-        setActiveModal(state, action) {
-            state.activeModal = action.payload;
-        },
-    },
-});
+const $modal = createStore(initialState)
+    .on(toggleModal, (state, isModalOpen) => ({ ...state, isModalOpen }))
+    .on(setActiveModal, (state, activeModal) => ({ ...state, activeModal }));
 
-export const { toggleModal, setActiveModal } = modalSlice.actions;
-export default modalSlice.reducer;
+export { $modal, toggleModal, setActiveModal };

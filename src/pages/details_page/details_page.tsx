@@ -8,11 +8,11 @@ import SnackbarError from "../../components/common/snack_bar";
 import { handleToggleFavorite } from "../../utils/toggle_favorite";
 import { API } from "../../api";
 import { MoreMovieDetails } from "../../types/types";
-import { useAppSelector } from "../../redux/hooks/hooks";
-import { selectMovie } from "../../redux/features/movies/selectors";
 import { SectionCastList } from "../../components/section_cast_list/section_cast_list";
 import { SectionDetails } from "../../components/section_details/section_details";
 import { SectionCastIMG } from "../../components/section_cast_img/section_cast_img";
+import { useUnit } from "effector-react";
+import { $idFavorite } from "../../redux/features/movies/movies_slice";
 
 const DEFAULT_STATE = {
     FAVORITE: false,
@@ -22,14 +22,14 @@ const DEFAULT_STATE = {
 function DetailsPage() {
     const [isOpenNotification, setIsOpenNotification] = useState<boolean>(DEFAULT_STATE.NOTIFICATION);
     const [isFavorite, setIsFavorite] = useState(DEFAULT_STATE.FAVORITE);
-    const { idFavorite } = useAppSelector(selectMovie);
+    const idFavorite = useUnit($idFavorite);
 
     const { detailsMovie, castList } = useLoaderData() as MoreMovieDetails;
     const { poster_path, title, release_date, id } = detailsMovie;
     const { cast, crew } = castList;
 
     useEffect(() => {
-        const isFavoriteMovie = idFavorite() && idFavorite().some((idFavorite) => idFavorite === id);
+        const isFavoriteMovie = idFavorite && idFavorite.some((idFavorite) => idFavorite === id);
         setIsFavorite(isFavoriteMovie);
     }, [idFavorite, id]);
 

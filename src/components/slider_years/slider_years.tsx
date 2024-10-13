@@ -1,22 +1,20 @@
 import { useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks/hooks";
-import { selectFilter } from "../../redux/features/filter/selectors";
-import { setSortYear } from "../../redux/features/filter/filter_slice";
+import { $filter, setSortYear } from "../../redux/features/filter/filter_slice";
 import { Box, Slider, Typography } from "@mui/material";
 import { sliderChange } from "../../utils/slider_change";
 import { MARKS, YEAR_RANGE } from "../../constants/constants";
+import { useUnit } from "effector-react";
 
 const [START_YEAR, CURRENT_YEAR] = YEAR_RANGE;
 
 function SliderYears() {
-    const dispatch = useAppDispatch();
-
-    const { sortYear } = useAppSelector(selectFilter);
+    const onSetSortYear = useUnit(setSortYear);
+    const { sortYear } = useUnit($filter);
 
     const [value, setValue] = useState(sortYear);
 
     const handleFetch = () => {
-        dispatch(setSortYear(value));
+        onSetSortYear(value);
     };
 
     return (
